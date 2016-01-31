@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iQuicker</string>
+    <string name="notice">If the suspended button is not displayed, please follow the instructions:</string>
+    <string name="tip_1">1.enable floating windows(allow this app show dropzone)</string>
+    <string name="tip_2">2.trust this app</string>
+    <string name="tip_3">3.enable auto-start and start backgroud</string>
+    <string name="tip_4">4.allow this app push messages to the notification panel</string>
+    <string name="tip_5">5.allow this app push messages to the notification panel</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+    <string name="ok">OK</string>
+    <string name="download">Downloading...Install later,please!</string>
+</resources>

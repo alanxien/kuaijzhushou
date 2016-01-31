@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">快捷助手</string>
+    <string name="notice">如果悬浮按钮没有出现，请按下列说明操作：</string>
+    <string name="tip_1">1.启用悬浮窗(允许此App显示悬浮窗)</string>
+    <string name="tip_2">2.信任此App</string>
+    <string name="tip_3">3.允许此App开机自启动和后台启动</string>
+    <string name="tip_4">4.允许此App在通知栏显示通知</string>
+    <string name="show">显示快捷助手</string>
+    <string name="hide">隐藏快捷助手</string>
+    <string name="ok">晓得了</string>
+    <string name="download">已经开始下载新功能，请稍后完成安装！</string>
+
+
+</resources>
