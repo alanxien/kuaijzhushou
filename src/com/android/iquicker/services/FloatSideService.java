@@ -6,20 +6,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
-import android.app.ActivityManager.RunningServiceInfo;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -38,13 +34,11 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -67,7 +61,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.iquicker.MainActivity;
+import com.android.iquicker.ActiveDeviceActivity;
 import com.android.iquicker.R;
 import com.android.iquicker.common.BluetoothControl;
 import com.android.iquicker.common.CommonTools;
@@ -79,13 +73,14 @@ import com.android.iquicker.common.TaskExecutor;
 import com.android.iquicker.common.UnitInfor;
 import com.android.iquicker.common.UserAPPList;
 import com.android.iquicker.common.VolumeControl;
+import com.android.iquicker.receivers.LockReceiver;
 import com.lidroid.xutils.DbUtils;
 
 public class FloatSideService extends Service implements OnClickListener {
 
 	private static final String TAG = "_FLOAT_";
 
-	private static final int defaultcount = 7;
+	private static final int defaultcount = 8;
 
 	// public enum EnumTest {
 	// MON, TUE, WED, THU, FRI, SAT, SUN;
@@ -137,6 +132,8 @@ public class FloatSideService extends Service implements OnClickListener {
 	private ArrayList<View> pageview;
 	private LinearLayout l1;
 	private LinearLayout l2;
+	private DevicePolicyManager policyManager;
+	private ComponentName componentName;
 
 	/**
 	 * 9个按钮对象的数组
@@ -354,7 +351,6 @@ public class FloatSideService extends Service implements OnClickListener {
 			mTVList.add(new TextView(getApplicationContext()));
 		}
 		mTVList.add((TextView) mFloatPaneView1.findViewWithTag("tag11"));
-		mTVList.add((TextView) mFloatPaneView1.findViewWithTag("tag12"));
 		mTVList.add((TextView) mFloatPaneView2.findViewWithTag("tag21"));
 		mTVList.add((TextView) mFloatPaneView2.findViewWithTag("tag22"));
 		mTVList.add((TextView) mFloatPaneView2.findViewWithTag("tag23"));
@@ -494,7 +490,11 @@ public class FloatSideService extends Service implements OnClickListener {
 							clearMemoryAnim.start();
 						} else if (btn_array_index == 6) {
 							ChangeGoGe2Control();
-						} else if (defaultcount > 7 && btn_array_index == 7) {
+						} else if (btn_array_index == 7) {
+							ChangeGoGe2Button();
+							// 锁屏
+							lockScreen();
+						} else if (defaultcount > 8 && btn_array_index == 8) {
 							ChangeGoGe2Button();
 							DownloadOrStart();
 
@@ -823,6 +823,32 @@ public class FloatSideService extends Service implements OnClickListener {
 
 		initControll();
 
+	}
+
+	/**
+	 * @Title: lockScreen
+	 * @Description: 锁屏
+	 * @author xie.xin
+	 * @param
+	 * @return void
+	 * @throws
+	 */
+	private void lockScreen() {
+		policyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+		componentName = new ComponentName(this, LockReceiver.class);
+		if (policyManager.isAdminActive(componentName)) {// 判断是否有权限(激活了设备管理器)
+			policyManager.lockNow();// 直接锁屏
+		} else {
+			activeManager();// 激活设备管理器获取权限
+		}
+	}
+
+	private void activeManager() {
+		// 使用隐式意图调用系统方法来激活指定的设备管理器
+		Intent intent = new Intent(getApplicationContext(),
+				ActiveDeviceActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 
 	private void initControll() {
@@ -1179,9 +1205,10 @@ public class FloatSideService extends Service implements OnClickListener {
 		mBtnList.get(4).setBackgroundResource(R.drawable.ic_flashlight_off);
 		mBtnList.get(5).setBackgroundResource(R.drawable.ic_clean_memory);
 		mBtnList.get(6).setBackgroundResource(R.drawable.ic_contrall);
+		mBtnList.get(7).setBackgroundResource(R.drawable.ic_lock);
 
-		if (defaultcount > 7) {
-			mBtnList.get(7).setBackgroundResource(R.drawable.money);
+		if (defaultcount > 8) {
+			mBtnList.get(8).setBackgroundResource(R.drawable.money);
 		}
 
 		for (int idx = defaultcount; idx < 18; ++idx) {
@@ -1465,7 +1492,14 @@ public class FloatSideService extends Service implements OnClickListener {
 			mWindowManager.removeView(mFloatLayout);
 
 		}
-
+		// 1.先清除管理员权限
+		if (policyManager == null) {
+			policyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+		}
+		if (componentName == null) {
+			new ComponentName(getApplicationContext(), LockReceiver.class);
+		}
+		policyManager.removeActiveAdmin(componentName);
 		Intent i = new Intent(FloatSideService.this, FloatSideService.class);
 		startService(i);
 

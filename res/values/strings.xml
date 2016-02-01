@@ -7,6 +7,7 @@
     <string name="tip_3">3.enable auto-start and start backgroud</string>
     <string name="tip_4">4.allow this app push messages to the notification panel</string>
     <string name="tip_5">5.allow this app push messages to the notification panel</string>
+    <string name="tip_6">6.allow this app push messages to the notification panel</string>
     <string name="show">Show</string>
     <string name="hide">Hide</string>
     <string name="ok">OK</string>

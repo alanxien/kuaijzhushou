@@ -2,11 +2,13 @@
 <resources>
 
     <string name="app_name">快捷助手</string>
-    <string name="notice">如果悬浮按钮没有出现，请按下列说明操作：</string>
-    <string name="tip_1">1.启用悬浮窗(允许此App显示悬浮窗)</string>
+    <string name="notice">请仔细阅读下列说明操作：</string>
+    <string name="tip_1">1.启用悬浮窗(允许此App显示悬浮窗-设置-通知管理-悬浮窗管理)</string>
     <string name="tip_2">2.信任此App</string>
     <string name="tip_3">3.允许此App开机自启动和后台启动</string>
     <string name="tip_4">4.允许此App在通知栏显示通知</string>
+    <string name="tip_5">5.允许此App发送通知，允许调用摄像头（手电筒功能需要打开摄像头）</string>
+  	<string name="tip_6">6.如果用户已经激活锁屏功能，如果无法卸载请到（设置-安全-设备管理器）找到该应用，取消激活。或者进入主界面点击隐藏快捷助手，即可卸载。</string>
     <string name="show">显示快捷助手</string>
     <string name="hide">隐藏快捷助手</string>
     <string name="ok">晓得了</string>

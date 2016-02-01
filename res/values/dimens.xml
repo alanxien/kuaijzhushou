@@ -4,4 +4,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="global_screenshot_bg_padding">20dp</dimen>
+
 </resources>

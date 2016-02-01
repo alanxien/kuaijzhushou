@@ -6,14 +6,18 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.android.iquicker.common.CommonTools;
+import com.android.iquicker.receivers.LockReceiver;
 import com.android.iquicker.services.FloatSideService;
 import com.android.iquicker.services.RefreshDataService;
 import com.umeng.analytics.AnalyticsConfig;
